@@ -192,7 +192,7 @@ build_prompt() {
   local DIR_BLOCK="${SEP_OS_DIR}${SEP}${FG_DIR}${BG_DIR}   \w "
   local STATUS_ICON=""
   if [ $exit_code -eq 0 ]; then STATUS_ICON="\[\e[38;5;76m\]✔ "; else STATUS_ICON="\[\e[38;5;160m\]✘ "; fi
-  local RIGHT_BLOCK=" ${STATUS_ICON}${SEP_RIGHT_START}${RSEP}${BG_RIGHT}${FG_RIGHT} ${USER_NAME}, ${GLOBE}  ${RESET}"
+  local RIGHT_BLOCK=" ${STATUS_ICON}${SEP_RIGHT_START}${RSEP}${BG_RIGHT}${FG_RIGHT} ${USER_NAME} ${GLOBE}  ${RESET}"
   local FRAME_BOT="${FRAME_COLOR}╰─${PROMPT_END}❯${PROMPT_BLUE}❯${PROMPT_END}❯${RESET} "
   PS1="\n${FRAME_TOP}${OS_BLOCK}${DIR_BLOCK}${GIT_BLOCK}${RIGHT_BLOCK}\n${FRAME_BOT}"
 }
@@ -232,6 +232,10 @@ alias ls='lsd --group-directories-first'
 alias la='lsd -a -l --header --group-directories-first --blocks name,size,date'
 alias ll='lsd -l --header --group-directories-first --blocks name,size,date'
 alias grep='grep --color=auto'
+
+# Manual lock/logout commands
+alias lock='source ~/.termux_login.sh'
+alias logout='exit'
 
 # Source the custom powerlevel10k clone prompt
 if [ -f ~/.bashrc_prompt ]; then

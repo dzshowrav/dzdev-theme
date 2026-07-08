@@ -30,8 +30,13 @@ curl -sL https://raw.githubusercontent.com/dzshowrav/dzdev-theme/master/dzdev_in
 
 
 ## 🛠️ Usage
-* **Login**: On first boot, you will be prompted to set a password and a security question. Next time, you must enter it to unlock the shell. If you lose it, type `forgot`.
+* **Login System**: 
+  * On first boot, you will be prompted to set a password and a security question. 
+  * Next time, you must enter it to unlock the shell. If you lose it, type `forgot`.
+  * Type `lock` at any time to instantly lock the terminal and bring up the password screen.
+  * Type `logout` to securely exit and close the Termux session.
 * **File Manager**: Simply type `ls`, `la`, or `ll` to see the beautiful new file browsing layout.
+* **Smart Prompt**: Features a dynamic rotating globe (`🌍 🌎 🌏`) and git integration showing branches and repo status right in the command line!
 
 ---
 ## 🗑️ How to Remove
