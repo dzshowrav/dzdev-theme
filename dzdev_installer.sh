@@ -10,12 +10,6 @@ echo -e "\e[1;36m│\e[1;37m      dzdev Ultimate Theme Installer      \e[1;36m�
 echo -e "\e[1;36m╰──────────────────────────────────────────╯\e[0m"
 echo ""
 
-echo -ne "\e[1;33mWhat is your name? (Leave blank for 'Dzdev'): \e[0m"
-read -r INPUT_NAME
-if [ -z "$INPUT_NAME" ]; then INPUT_NAME="Dzdev"; fi
-echo "USER_NAME=\"$INPUT_NAME\"" > ~/.termux_theme_config
-echo ""
-
 spinner() {
     local pid=$1
     local msg="$2"
@@ -93,7 +87,14 @@ hash_string() { echo -n "$1" | sha256sum | awk '{print $1}'; }
 
 if [ ! -f "$AUTH_FILE" ]; then
     draw_banner
-    echo -e "${YELLOW} Welcome! Let's set up your secure login.${RESET}\n"
+    echo -e "${YELLOW} Welcome! Let's set up your profile and secure login.${RESET}\n"
+    
+    echo -ne "${WHITE} What is your name? (Leave blank for 'Dzdev'): ${RESET}"
+    read -r INPUT_NAME
+    if [ -z "$INPUT_NAME" ]; then INPUT_NAME="Dzdev"; fi
+    echo "USER_NAME=\"$INPUT_NAME\"" > ~/.termux_theme_config
+    echo ""
+
     while true; do
         read -s -p "$(echo -e ${WHITE} "Enter a new password: " ${RESET})" pass1; echo ""
         read -s -p "$(echo -e ${WHITE} "Confirm password: " ${RESET})" pass2; echo ""
