@@ -28,8 +28,8 @@ spinner() {
 }
 
 # 1. Install dependencies
-msg="\e[1;33m[1/6] Installing dependencies (lsd, curl, figlet, termux-api)...\e[0m"
-(pkg update -y > /dev/null 2>&1 && pkg install lsd curl figlet termux-api -y > /dev/null 2>&1) &
+msg="\e[1;33m[1/6] Installing dependencies (lsd, curl, figlet, mpv)...\e[0m"
+(pkg update -y > /dev/null 2>&1 && pkg install lsd curl figlet mpv -y > /dev/null 2>&1) &
 spinner $! "$msg"
 
 # 2. Setup Termux Directory & Font
@@ -240,7 +240,7 @@ fi
 
 # Play welcome audio in background
 if [ -f ~/.termux/welcome.mp3 ]; then
-    termux-media-player play ~/.termux/welcome.mp3 >/dev/null 2>&1 &
+    mpv ~/.termux/welcome.mp3 >/dev/null 2>&1 &
 fi
 EOF
 ) &
