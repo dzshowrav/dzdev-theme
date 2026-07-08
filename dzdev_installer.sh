@@ -95,6 +95,7 @@ if [ ! -f "$AUTH_FILE" ]; then
         read -r INPUT_NAME
     done
     echo "USER_NAME=\"$INPUT_NAME\"" > ~/.termux_theme_config
+    USER_NAME="$INPUT_NAME"
     echo ""
 
     while true; do
@@ -205,11 +206,18 @@ msg="\e[1;33m[6/6] Configuring .bashrc...\e[0m"
 (
 cat << 'EOF' > ~/.bashrc
 # Termux Configuration
-source ~/.termux_theme_config
+if [ -f ~/.termux_theme_config ]; then
+    source ~/.termux_theme_config
+fi
 
 # Run Secure Login System
 if [ -f ~/.termux_login.sh ]; then
     source ~/.termux_login.sh
+fi
+
+# Source again to catch changes made during first login
+if [ -f ~/.termux_theme_config ]; then
+    source ~/.termux_theme_config
 fi
 
 clear
