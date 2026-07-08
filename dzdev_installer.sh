@@ -12,31 +12,34 @@ echo ""
 
 spinner() {
     local pid=$1
+    local msg="$2"
     local delay=0.1
-    local spinstr='|/-\'
+    local frames=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
+    local i=0
+    # Add a trap to ensure cursor is not lost if killed early
+    tput civis
     while kill -0 $pid 2>/dev/null; do
-        local temp=${spinstr#?}
-        printf " \e[1;35m%c\e[0m  " "$spinstr"
-        local spinstr=$temp${spinstr%"$temp"}
+        printf "\r \e[1;35m%s\e[0m  %s" "${frames[i]}" "$msg"
+        i=$(( (i + 1) % 10 ))
         sleep $delay
-        printf "\b\b\b\b"
     done
-    printf " \e[1;32m✔\e[0m  \n"
+    printf "\r \e[1;32m✔\e[0m  %s\n" "$msg"
+    tput cnorm
 }
 
 # 1. Install dependencies
-echo -ne "\e[1;33m[1/6] Installing dependencies (lsd, curl)...\e[0m"
+msg="\e[1;33m[1/6] Installing dependencies (lsd, curl)...\e[0m"
 (pkg update -y > /dev/null 2>&1 && pkg install lsd curl -y > /dev/null 2>&1) &
-spinner $!
+spinner $! "$msg"
 
 # 2. Setup Termux Directory & Font
-echo -ne "\e[1;33m[2/6] Downloading JetBrainsMono Nerd Font...\e[0m"
+msg="\e[1;33m[2/6] Downloading JetBrainsMono Nerd Font...\e[0m"
 mkdir -p ~/.termux
 (curl -sL -o ~/.termux/font.ttf "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFont-Regular.ttf" > /dev/null 2>&1) &
-spinner $!
+spinner $! "$msg"
 
 # 3. Create Colors
-echo -ne "\e[1;33m[3/6] Applying color palette...\e[0m"
+msg="\e[1;33m[3/6] Applying color palette...\e[0m"
 (
 cat << 'EOF' > ~/.termux/colors.properties
 background=#000000
@@ -60,10 +63,10 @@ color14=#8be9fd
 color15=#ffffff
 EOF
 ) &
-spinner $!
+spinner $! "$msg"
 
 # 4. Create Login System
-echo -ne "\e[1;33m[4/6] Installing Secure Login System...\e[0m"
+msg="\e[1;33m[4/6] Installing Secure Login System...\e[0m"
 (
 cat << 'EOF' > ~/.termux_login.sh
 #!/bin/bash
@@ -129,10 +132,10 @@ trap - INT TSTP
 clear
 EOF
 ) &
-spinner $!
+spinner $! "$msg"
 
 # 5. Create P10k Clone Prompt
-echo -ne "\e[1;33m[5/6] Writing Custom Bash Prompt...\e[0m"
+msg="\e[1;33m[5/6] Writing Custom Bash Prompt...\e[0m"
 (
 cat << 'EOF' > ~/.bashrc_prompt
 BG_OS="\[\e[48;5;236m\]"; FG_OS="\[\e[38;5;255m\]"
@@ -177,10 +180,10 @@ build_prompt() {
 PROMPT_COMMAND=build_prompt
 EOF
 ) &
-spinner $!
+spinner $! "$msg"
 
 # 6. Create bashrc
-echo -ne "\e[1;33m[6/6] Configuring .bashrc...\e[0m"
+msg="\e[1;33m[6/6] Configuring .bashrc...\e[0m"
 (
 cat << 'EOF' > ~/.bashrc
 # Termux Configuration
@@ -212,7 +215,7 @@ if [ -f ~/.bashrc_prompt ]; then
 fi
 EOF
 ) &
-spinner $!
+spinner $! "$msg"
 
 termux-reload-settings
 echo -e "\n\e[1;32m🎉 Installation Complete! Please completely restart Termux to enjoy your new theme!\e[0m"
