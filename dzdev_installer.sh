@@ -33,9 +33,9 @@ msg="\e[1;33m[1/6] Installing dependencies (lsd, curl, figlet, termux-api)...\e[
 spinner $! "$msg"
 
 # 2. Setup Termux Directory & Font
-msg="\e[1;33m[2/6] Downloading JetBrainsMono Nerd Font...\e[0m"
+msg="\e[1;33m[2/6] Downloading Fonts & Assets...\e[0m"
 mkdir -p ~/.termux
-(curl -sL -o ~/.termux/font.ttf "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFont-Regular.ttf" > /dev/null 2>&1) &
+(curl -sL -o ~/.termux/font.ttf "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFont-Regular.ttf" > /dev/null 2>&1 && curl -sL -o ~/.termux/welcome.mp3 "https://raw.githubusercontent.com/dzshowrav/dzdev-theme/master/assets/terminal_announcement.mp3" > /dev/null 2>&1) &
 spinner $! "$msg"
 
 # 3. Create Colors
@@ -239,7 +239,9 @@ if [ -f ~/.bashrc_prompt ]; then
 fi
 
 # Play welcome audio in background
-termux-tts-speak "welcome to terminal" >/dev/null 2>&1 &
+if [ -f ~/.termux/welcome.mp3 ]; then
+    termux-media-player play ~/.termux/welcome.mp3 >/dev/null 2>&1 &
+fi
 EOF
 ) &
 spinner $! "$msg"
