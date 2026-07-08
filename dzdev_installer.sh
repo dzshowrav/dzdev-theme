@@ -13,7 +13,7 @@ echo ""
 spinner() {
     local pid=$1
     local delay=0.1
-    local spinstr='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+    local spinstr='|/-\'
     while kill -0 $pid 2>/dev/null; do
         local temp=${spinstr#?}
         printf " \e[1;35m%c\e[0m  " "$spinstr"
