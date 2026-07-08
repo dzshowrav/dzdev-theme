@@ -4,6 +4,15 @@ Welcome to the **dzdev Ultimate Termux Theme!**
 
 This project completely overhauls the standard Termux CLI into a stunning, highly-visual, modern terminal experience using **pure Bash** (no Zsh required) without overriding core system binaries.
 
+## 📸 Screenshots
+<p align="center">
+  <img src="assets/screenshot1.jpg" width="45%" />
+  <img src="assets/screenshot2.jpg" width="45%" />
+  <br>
+  <img src="assets/screenshot3.jpg" width="45%" />
+  <img src="assets/screenshot4.jpg" width="45%" />
+</p>
+
 ## ✨ Features
 * **Native Powerlevel10k Clone**: Get the gorgeous, framed Powerline prompt look without needing Oh-My-Zsh.
 * **Bank-Grade Login System**: Features an ASCII lock-screen on startup with SHA256 hashed passwords and a built-in "forgot password" recovery system!
