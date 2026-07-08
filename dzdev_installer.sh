@@ -4,20 +4,40 @@
 # dzdev - Ultimate Termux Theme Installer
 # ==========================================
 
-echo -e "\e[1;36mStarting the dzdev Termux aesthetic installation...\e[0m"
+clear
+echo -e "\e[1;36m╭──────────────────────────────────────────╮\e[0m"
+echo -e "\e[1;36m│\e[1;37m      dzdev Ultimate Theme Installer      \e[1;36m│\e[0m"
+echo -e "\e[1;36m╰──────────────────────────────────────────╯\e[0m"
+echo ""
+
+spinner() {
+    local pid=$1
+    local delay=0.1
+    local spinstr='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
+    while kill -0 $pid 2>/dev/null; do
+        local temp=${spinstr#?}
+        printf " \e[1;35m%c\e[0m  " "$spinstr"
+        local spinstr=$temp${spinstr%"$temp"}
+        sleep $delay
+        printf "\b\b\b\b"
+    done
+    printf " \e[1;32m✔\e[0m  \n"
+}
 
 # 1. Install dependencies
-echo -e "\e[1;33m[1/6] Installing dependencies (lsd, curl)...\e[0m"
-pkg update -y > /dev/null 2>&1
-pkg install lsd curl -y > /dev/null 2>&1
+echo -ne "\e[1;33m[1/6] Installing dependencies (lsd, curl)...\e[0m"
+(pkg update -y > /dev/null 2>&1 && pkg install lsd curl -y > /dev/null 2>&1) &
+spinner $!
 
 # 2. Setup Termux Directory & Font
-echo -e "\e[1;33m[2/6] Downloading JetBrainsMono Nerd Font...\e[0m"
+echo -ne "\e[1;33m[2/6] Downloading JetBrainsMono Nerd Font...\e[0m"
 mkdir -p ~/.termux
-curl -sL -o ~/.termux/font.ttf "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFont-Regular.ttf"
+(curl -sL -o ~/.termux/font.ttf "https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFont-Regular.ttf" > /dev/null 2>&1) &
+spinner $!
 
 # 3. Create Colors
-echo -e "\e[1;33m[3/6] Applying color palette...\e[0m"
+echo -ne "\e[1;33m[3/6] Applying color palette...\e[0m"
+(
 cat << 'EOF' > ~/.termux/colors.properties
 background=#000000
 foreground=#ffffff
@@ -39,9 +59,12 @@ color13=#ff79c6
 color14=#8be9fd
 color15=#ffffff
 EOF
+) &
+spinner $!
 
 # 4. Create Login System
-echo -e "\e[1;33m[4/6] Installing Secure Login System...\e[0m"
+echo -ne "\e[1;33m[4/6] Installing Secure Login System...\e[0m"
+(
 cat << 'EOF' > ~/.termux_login.sh
 #!/bin/bash
 AUTH_FILE="$HOME/.termux_auth_data"
@@ -105,9 +128,12 @@ done
 trap - INT TSTP
 clear
 EOF
+) &
+spinner $!
 
 # 5. Create P10k Clone Prompt
-echo -e "\e[1;33m[5/6] Writing Custom Bash Prompt...\e[0m"
+echo -ne "\e[1;33m[5/6] Writing Custom Bash Prompt...\e[0m"
+(
 cat << 'EOF' > ~/.bashrc_prompt
 BG_OS="\[\e[48;5;236m\]"; FG_OS="\[\e[38;5;255m\]"
 BG_DIR="\[\e[48;5;31m\]"; FG_DIR="\[\e[38;5;254m\]"
@@ -150,9 +176,12 @@ build_prompt() {
 }
 PROMPT_COMMAND=build_prompt
 EOF
+) &
+spinner $!
 
 # 6. Create bashrc
-echo -e "\e[1;33m[6/6] Configuring .bashrc...\e[0m"
+echo -ne "\e[1;33m[6/6] Configuring .bashrc...\e[0m"
+(
 cat << 'EOF' > ~/.bashrc
 # Termux Configuration
 
@@ -182,6 +211,8 @@ if [ -f ~/.bashrc_prompt ]; then
     source ~/.bashrc_prompt
 fi
 EOF
+) &
+spinner $!
 
 termux-reload-settings
-echo -e "\n\e[1;32m✔ Installation Complete! Restart Termux to apply.\e[0m"
+echo -e "\n\e[1;32m🎉 Installation Complete! Please completely restart Termux to enjoy your new theme!\e[0m"
