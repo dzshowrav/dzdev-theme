@@ -28,8 +28,8 @@ spinner() {
 }
 
 # 1. Install dependencies
-msg="\e[1;33m[1/6] Installing dependencies (lsd, curl, figlet)...\e[0m"
-(pkg update -y > /dev/null 2>&1 && pkg install lsd curl figlet -y > /dev/null 2>&1) &
+msg="\e[1;33m[1/6] Installing dependencies (lsd, curl, figlet, termux-api)...\e[0m"
+(pkg update -y > /dev/null 2>&1 && pkg install lsd curl figlet termux-api -y > /dev/null 2>&1) &
 spinner $! "$msg"
 
 # 2. Setup Termux Directory & Font
@@ -237,6 +237,9 @@ alias grep='grep --color=auto'
 if [ -f ~/.bashrc_prompt ]; then
     source ~/.bashrc_prompt
 fi
+
+# Play welcome audio in background
+termux-tts-speak "welcome to terminal" >/dev/null 2>&1 &
 EOF
 ) &
 spinner $! "$msg"
