@@ -240,7 +240,7 @@ fi
 
 # Play welcome audio in background
 if [ -f ~/.termux/welcome.mp3 ]; then
-    mpv ~/.termux/welcome.mp3 >/dev/null 2>&1 &
+    mpv ~/.termux/welcome.mp3 >/dev/null 2>&1
 fi
 EOF
 ) &
