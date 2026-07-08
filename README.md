@@ -18,7 +18,7 @@ To install this theme on any fresh Termux app, simply copy and paste this comman
 ```bash
 curl -sL https://raw.githubusercontent.com/dzshowrav/dzdev-theme/master/dzdev_installer.sh | bash
 ```
-*(Note: Be sure to replace `<YOUR-USERNAME>` and `<YOUR-REPO>` with your actual GitHub details once uploaded!)*
+
 
 ## 🛠️ Usage
 * **Login**: On first boot, you will be prompted to set a password and a security question. Next time, you must enter it to unlock the shell. If you lose it, type `forgot`.
