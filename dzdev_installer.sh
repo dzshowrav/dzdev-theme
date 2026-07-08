@@ -238,9 +238,19 @@ if [ -f ~/.bashrc_prompt ]; then
     source ~/.bashrc_prompt
 fi
 
-# Play welcome audio in background
+# Play welcome audio and show AI text
 if [ -f ~/.termux/welcome.mp3 ]; then
-    mpv ~/.termux/welcome.mp3 >/dev/null 2>&1
+    mpv ~/.termux/welcome.mp3 >/dev/null 2>&1 &
+    
+    text="WELCOME TO TERMINAL. SIR,  WHAT IS THE PLAN TODAY?"
+    echo -e "\e[1;36m"
+    for (( i=0; i<${#text}; i++ )); do
+        echo -n "${text:$i:1}"
+        sleep 0.05
+    done
+    echo -e "\e[0m\n"
+    
+    wait
 fi
 EOF
 ) &
