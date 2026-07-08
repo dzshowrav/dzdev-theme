@@ -224,7 +224,7 @@ clear
 
 # Generate Giant Welcome Banner
 echo -e "\e[1;36m"
-figlet -f standard "$USER_NAME"
+figlet -f standard "${USER_NAME^^}"
 echo -e "\e[0m"
 
 # Enable LSD for beautiful file listings
