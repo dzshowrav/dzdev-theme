@@ -25,4 +25,11 @@ curl -sL https://raw.githubusercontent.com/dzshowrav/dzdev-theme/master/dzdev_in
 * **File Manager**: Simply type `ls`, `la`, or `ll` to see the beautiful new file browsing layout.
 
 ---
+## 🗑️ How to Remove
+To completely remove the theme and restore standard Termux, run:
+```bash
+rm -f ~/.termux/font.ttf ~/.termux/colors.properties ~/.termux_login.sh ~/.termux_auth_data ~/.bashrc_prompt ~/.bashrc && termux-reload-settings
+```
+
+---
 *Built with passion by dzdev.*
