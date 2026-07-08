@@ -165,15 +165,22 @@ get_git_status() {
   else GIT_BLOCK="${SEP_DIR_END}${SEP}${RESET}"; fi
 }
 
+GLOBE_INDEX=0
+GLOBE_FRAMES=("🌍" "🌎" "🌏")
+
 build_prompt() {
   local exit_code=$?
   get_git_status
+  
+  GLOBE_INDEX=$(( (GLOBE_INDEX + 1) % 3 ))
+  local GLOBE="${GLOBE_FRAMES[$GLOBE_INDEX]}"
+  
   local FRAME_TOP="${FRAME_COLOR}╭─${RESET}"
   local OS_BLOCK="${BG_OS}${FG_OS}  "
   local DIR_BLOCK="${SEP_OS_DIR}${SEP}${FG_DIR}${BG_DIR}   \w "
   local STATUS_ICON=""
   if [ $exit_code -eq 0 ]; then STATUS_ICON="\[\e[38;5;76m\]✔ "; else STATUS_ICON="\[\e[38;5;160m\]✘ "; fi
-  local RIGHT_BLOCK=" ${STATUS_ICON}${SEP_RIGHT_START}${RSEP}${BG_RIGHT}${FG_RIGHT} hi, :) ${RESET}"
+  local RIGHT_BLOCK=" ${STATUS_ICON}${SEP_RIGHT_START}${RSEP}${BG_RIGHT}${FG_RIGHT} hi, ${GLOBE}  ${RESET}"
   local FRAME_BOT="${FRAME_COLOR}╰─${PROMPT_END}❯${PROMPT_BLUE}❯${PROMPT_END}❯${RESET} "
   PS1="\n${FRAME_TOP}${OS_BLOCK}${DIR_BLOCK}${GIT_BLOCK}${RIGHT_BLOCK}\n${FRAME_BOT}"
 }
