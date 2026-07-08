@@ -10,6 +10,12 @@ echo -e "\e[1;36m│\e[1;37m      dzdev Ultimate Theme Installer      \e[1;36m�
 echo -e "\e[1;36m╰──────────────────────────────────────────╯\e[0m"
 echo ""
 
+echo -ne "\e[1;33mWhat is your name? (Leave blank for 'Dzdev'): \e[0m"
+read -r INPUT_NAME
+if [ -z "$INPUT_NAME" ]; then INPUT_NAME="Dzdev"; fi
+echo "USER_NAME=\"$INPUT_NAME\"" > ~/.termux_theme_config
+echo ""
+
 spinner() {
     local pid=$1
     local msg="$2"
@@ -28,8 +34,8 @@ spinner() {
 }
 
 # 1. Install dependencies
-msg="\e[1;33m[1/6] Installing dependencies (lsd, curl)...\e[0m"
-(pkg update -y > /dev/null 2>&1 && pkg install lsd curl -y > /dev/null 2>&1) &
+msg="\e[1;33m[1/6] Installing dependencies (lsd, curl, figlet)...\e[0m"
+(pkg update -y > /dev/null 2>&1 && pkg install lsd curl figlet -y > /dev/null 2>&1) &
 spinner $! "$msg"
 
 # 2. Setup Termux Directory & Font
@@ -138,6 +144,8 @@ spinner $! "$msg"
 msg="\e[1;33m[5/6] Writing Custom Bash Prompt...\e[0m"
 (
 cat << 'EOF' > ~/.bashrc_prompt
+source ~/.termux_theme_config
+
 BG_OS="\[\e[48;5;236m\]"; FG_OS="\[\e[38;5;255m\]"
 BG_DIR="\[\e[48;5;31m\]"; FG_DIR="\[\e[38;5;254m\]"
 BG_GIT_CLEAN="\[\e[48;5;76m\]"; FG_GIT_CLEAN="\[\e[38;5;0m\]"
@@ -180,7 +188,7 @@ build_prompt() {
   local DIR_BLOCK="${SEP_OS_DIR}${SEP}${FG_DIR}${BG_DIR}   \w "
   local STATUS_ICON=""
   if [ $exit_code -eq 0 ]; then STATUS_ICON="\[\e[38;5;76m\]✔ "; else STATUS_ICON="\[\e[38;5;160m\]✘ "; fi
-  local RIGHT_BLOCK=" ${STATUS_ICON}${SEP_RIGHT_START}${RSEP}${BG_RIGHT}${FG_RIGHT} hi, ${GLOBE}  ${RESET}"
+  local RIGHT_BLOCK=" ${STATUS_ICON}${SEP_RIGHT_START}${RSEP}${BG_RIGHT}${FG_RIGHT} ${USER_NAME}, ${GLOBE}  ${RESET}"
   local FRAME_BOT="${FRAME_COLOR}╰─${PROMPT_END}❯${PROMPT_BLUE}❯${PROMPT_END}❯${RESET} "
   PS1="\n${FRAME_TOP}${OS_BLOCK}${DIR_BLOCK}${GIT_BLOCK}${RIGHT_BLOCK}\n${FRAME_BOT}"
 }
@@ -194,6 +202,7 @@ msg="\e[1;33m[6/6] Configuring .bashrc...\e[0m"
 (
 cat << 'EOF' > ~/.bashrc
 # Termux Configuration
+source ~/.termux_theme_config
 
 # Run Secure Login System
 if [ -f ~/.termux_login.sh ]; then
@@ -202,13 +211,10 @@ fi
 
 clear
 
-# Giant /dzdev Welcome Banner
-echo -e "\e[1;36m    __    __       __ \e[0m"
-echo -e "\e[1;36m   / /___/ /______/ /__ _   __\e[0m"
-echo -e "\e[1;36m  / / __  /_  / __  / _ \ | / /\e[0m"
-echo -e "\e[1;36m / / /_/ / / / /_/ /  __/ |/ /\e[0m"
-echo -e "\e[1;36m/_/\__,_/ /_/\__,_/\___/|___/\e[0m"
-echo ""
+# Generate Giant Welcome Banner
+echo -e "\e[1;36m"
+figlet -f standard "$USER_NAME"
+echo -e "\e[0m"
 
 # Enable LSD for beautiful file listings
 alias ls='lsd --group-directories-first'
