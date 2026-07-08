@@ -89,9 +89,11 @@ if [ ! -f "$AUTH_FILE" ]; then
     draw_banner
     echo -e "${YELLOW} Welcome! Let's set up your profile and secure login.${RESET}\n"
     
-    echo -ne "${WHITE} What is your name? (Leave blank for 'Dzdev'): ${RESET}"
-    read -r INPUT_NAME
-    if [ -z "$INPUT_NAME" ]; then INPUT_NAME="Dzdev"; fi
+    INPUT_NAME=""
+    while [ -z "$INPUT_NAME" ]; do
+        echo -ne "${WHITE} What is your name?: ${RESET}"
+        read -r INPUT_NAME
+    done
     echo "USER_NAME=\"$INPUT_NAME\"" > ~/.termux_theme_config
     echo ""
 
