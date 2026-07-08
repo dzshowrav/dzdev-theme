@@ -16,7 +16,7 @@ This project completely overhauls the standard Termux CLI into a stunning, highl
 To install this theme on any fresh Termux app, simply copy and paste this command into your terminal:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/<YOUR-USERNAME>/<YOUR-REPO>/main/dzdev_installer.sh | bash
+curl -sL https://raw.githubusercontent.com/dzshowrav/dzdev-theme/master/dzdev_installer.sh | bash
 ```
 *(Note: Be sure to replace `<YOUR-USERNAME>` and `<YOUR-REPO>` with your actual GitHub details once uploaded!)*
 
